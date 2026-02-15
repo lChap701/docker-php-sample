@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+FROM --platform=linux/amd64 docker-php-sample-server:latest
 
 FROM composer:lts AS prod-deps
 WORKDIR /app
