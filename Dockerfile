@@ -1,21 +1,19 @@
 # syntax=docker/dockerfile:1
-FROM --platform=linux/amd64 docker-php-sample-server:latest
-
-FROM composer:lts AS prod-deps
+FROM --platform=linux/amd64 composer:lts AS prod-deps
 WORKDIR /app
 RUN --mount=type=bind,source=./composer.json,target=composer.json \
     --mount=type=bind,source=./composer.lock,target=composer.lock \
     --mount=type=cache,target=/tmp/cache \
     composer install --no-dev --no-interaction
 
-FROM composer:lts AS dev-deps
+FROM --platform=linux/amd64 composer:lts AS dev-deps
 WORKDIR /app
 RUN --mount=type=bind,source=./composer.json,target=composer.json \
     --mount=type=bind,source=./composer.lock,target=composer.lock \
     --mount=type=cache,target=/tmp/cache \
     composer install --no-interaction
 
-FROM php:8.2-apache AS base
+FROM --platform=linux/amd64 php:8.2-apache AS base
 RUN docker-php-ext-install pdo pdo_mysql
 COPY ./src /var/www/html
 
